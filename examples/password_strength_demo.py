@@ -25,7 +25,7 @@ def strength_label(score):
         return "Very Weak"
     elif score <= 4:
         return "Weak"
-    elif score <= 6:
+    elif score == 5:
         return "Moderate"
     else:
         return "Strong"
