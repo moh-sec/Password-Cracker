@@ -1,23 +1,37 @@
-# Defending Against Password Attacks
+import re
 
-Defending against password attacks isn’t about a single feature. It’s the result of combining good password practices with proper system-level protections.
+def check_password_strength(password):
+    score = 0
 
-## Strong Passwords
-Strong passwords are long, unique, and hard to guess. Using random combinations of letters, numbers, and symbols is far more effective than relying on real words or personal information.
+    if len(password) >= 8:
+        score += 1
+    if len(password) >= 12:
+        score += 1
 
-## Password Hashing
-Passwords should never be stored in plain text. Secure systems use hashing algorithms designed specifically for passwords, making it much harder for attackers to recover the original values even if a database is leaked.
+    if re.search(r"[a-z]", password):
+        score += 1
+    if re.search(r"[A-Z]", password):
+        score += 1
+    if re.search(r"[0-9]", password):
+        score += 1
+    if re.search(r"[^a-zA-Z0-9]", password):
+        score += 1
 
-## Salting
-Salts add random data to each password before hashing. This prevents attackers from using precomputed tables, such as rainbow tables, and forces them to attack each password individually.
+    return score
 
-## Rate Limiting
-Rate limiting reduces the impact of brute force attacks by restricting how many login attempts are allowed in a given time window. In many cases, it can stop automated attacks entirely.
 
-## Multi-Factor Authentication
-Multi-factor authentication adds an extra layer of protection. Even if a password is compromised, a second factor like a one-time code or hardware key can prevent unauthorized access.
+def strength_label(score):
+    if score <= 2:
+        return "Very Weak"
+    elif score <= 4:
+        return "Weak"
+    elif score <= 6:
+        return "Moderate"
+    else:
+        return "Strong"
 
-## User Awareness
-User behavior is often the weakest link. Teaching users about phishing, password reuse, and basic security hygiene can significantly reduce real-world attack success.
 
-Effective security comes from multiple defenses working together, not from relying on passwords alone.
+if __name__ == "__main__":
+    password = input("Enter a password to test: ")
+    score = check_password_strength(password)
+    print("Password strength:", strength_label(score))
